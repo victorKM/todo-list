@@ -4,10 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.kikuti.todo_list.entities.Task;
 import com.kikuti.todo_list.repositories.TaskRepository;
+import com.kikuti.todo_list.services.exceptions.DatabaseException;
+import com.kikuti.todo_list.services.exceptions.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class TaskService {
@@ -21,7 +26,7 @@ public class TaskService {
 
   public Task findById(Long id) {
     Optional<Task> task = taskRepository.findById(id);
-    return task.get();
+    return task.orElseThrow(() -> new ResourceNotFoundException(id));
   }
 
   public Task insert(Task task) {
@@ -29,19 +34,34 @@ public class TaskService {
   }
 
   public Task update(Long id, Task task) {
-    Task returnedTask = taskRepository.getReferenceById(id);
-    update(returnedTask, task);
-    return taskRepository.save(returnedTask);
+    try {
+      Task returnedTask = taskRepository.getReferenceById(id);
+      update(returnedTask, task);
+      return taskRepository.save(returnedTask);
+    } catch(EntityNotFoundException e) {
+      throw new ResourceNotFoundException(id);
+    }
   }
 
   private void update(Task returnedTask, Task task) {
-    returnedTask.setDescription(task.getDescription());
-    returnedTask.setTaskStatus(task.getTaskStatus());
-    returnedTask.setTitle(task.getTitle());
+    if(task.getDescription() != null && !task.getDescription().isBlank()) {
+      returnedTask.setDescription(task.getDescription());
+    }
+
+    if(task.getTitle() != null && !task.getTitle().isBlank()) {
+      returnedTask.setTitle(task.getTitle());
+    }
+
+    if(task.getTaskStatus() != null) {
+      returnedTask.setTaskStatus(task.getTaskStatus());
+    }
   }
 
   public void deleteById(Long id) {
-    taskRepository.deleteById(id);
+    try {
+      taskRepository.deleteById(id);
+    } catch (DataIntegrityViolationException e) {
+      throw new DatabaseException(e.getMessage());
+    }
   }
-
 }

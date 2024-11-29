@@ -1,5 +1,6 @@
 package com.kikuti.todo_list.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kikuti.todo_list.entities.enums.TaskStatus;
 
 import jakarta.persistence.Entity;
@@ -10,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(name="tb_task")
 public class Task {
@@ -61,6 +63,9 @@ public class Task {
   }
 
   public TaskStatus getTaskStatus() {
+    if(this.taskStatus == null) {
+      return null;
+    }
     return TaskStatus.valueOf(taskStatus);
   }
 

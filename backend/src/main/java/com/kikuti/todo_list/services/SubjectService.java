@@ -4,10 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.kikuti.todo_list.entities.Subject;
 import com.kikuti.todo_list.repositories.SubjectRepository;
+import com.kikuti.todo_list.services.exceptions.DatabaseException;
+import com.kikuti.todo_list.services.exceptions.ResourceNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class SubjectService {
@@ -21,7 +26,7 @@ public class SubjectService {
 
   public Subject findById(Long id) {
     Optional<Subject> subject = subjectRepository.findById(id);
-    return subject.get();
+    return subject.orElseThrow(() -> new ResourceNotFoundException(id));
   }
 
   public Subject insert(Subject subject) {
@@ -29,17 +34,27 @@ public class SubjectService {
   }
 
   public Subject update(Long id, Subject subject) {
-    Subject returnedSubject = subjectRepository.getReferenceById(id);
-    update(returnedSubject, subject);
-    return subjectRepository.save(returnedSubject);
+    try { 
+      Subject returnedSubject = subjectRepository.getReferenceById(id);
+      update(returnedSubject, subject);
+      return subjectRepository.save(returnedSubject);
+    } catch(EntityNotFoundException e) {
+      throw new ResourceNotFoundException(id);
+    }
   }
 
   public void update(Subject returnedSubject, Subject subject) {
-    returnedSubject.setName(subject.getName());
+    if(subject.getName() != null && !subject.getName().isBlank()) {
+      returnedSubject.setName(subject.getName());
+    }
   }
 
   public void deleteById(Long id) {
-    subjectRepository.deleteById(id);
+    try {
+      subjectRepository.deleteById(id); 
+    } catch (DataIntegrityViolationException e) {
+      throw new DatabaseException(e.getMessage());
+    }
   }
 
 }
