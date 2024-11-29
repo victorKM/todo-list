@@ -40,7 +40,7 @@ public class TaskService {
     returnedTask.setTitle(task.getTitle());
   }
 
-  public void delete(Long id) {
+  public void deleteById(Long id) {
     taskRepository.deleteById(id);
   }
 
