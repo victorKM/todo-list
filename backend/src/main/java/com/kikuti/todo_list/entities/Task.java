@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,14 +21,19 @@ public class Task {
   private String description;
   private Integer taskStatus;
 
+  @ManyToOne
+  @JoinColumn(name = "subject_id")
+  private Subject subject;
+
   public Task() {
   }
 
-  public Task(Long id, String title, String description, TaskStatus taskStatus) {
+  public Task(Long id, String title, String description, TaskStatus taskStatus, Subject subject) {
     this.id = id;
     this.title = title;
     this.description = description;
     setTaskStatus(taskStatus);
+    this.subject = subject;
   }
 
   public Long getId() {
@@ -61,6 +68,14 @@ public class Task {
     if(taskStatus != null) {
       this.taskStatus = taskStatus.getCode();
     }
+  }
+
+  public Subject getSubject() {
+    return subject;
+  }
+
+  public void setSubject(Subject subject) {
+    this.subject = subject;
   }
 
   @Override

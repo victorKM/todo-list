@@ -1,11 +1,16 @@
 package com.kikuti.todo_list.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,6 +20,10 @@ public class Subject {
   @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Long id;
   private String name;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "subject")
+  private List<Task> tasks = new ArrayList<>();
 
   public Subject() {
   }
@@ -38,6 +47,10 @@ public class Subject {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public List<Task> getTasks() {
+    return tasks;
   }
 
   @Override
