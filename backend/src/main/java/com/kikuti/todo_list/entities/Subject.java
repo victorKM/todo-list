@@ -14,14 +14,14 @@ public class Subject {
   
   @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
   private Long id;
-  private String subjectName;
+  private String name;
 
   public Subject() {
   }
 
-  public Subject(Long id, String subjectName) {
+  public Subject(Long id, String name) {
     this.id = id;
-    this.subjectName = subjectName;
+    this.name = name;
   }
 
   public Long getId() {
@@ -32,18 +32,18 @@ public class Subject {
     this.id = id;
   }
 
-  public String getSubjectName() {
-    return subjectName;
+  public String getName() {
+    return name;
   }
 
-  public void setSubjectName(String subjectName) {
-    this.subjectName = subjectName;
+  public void setName(String name) {
+    this.name = name;
   }
 
   @Override
   public int hashCode() {
       int hash = 7;
-      hash = 47 * hash + Objects.hashCode(this.subjectName);
+      hash = 47 * hash + Objects.hashCode(this.name);
       return hash;
   }
 
@@ -59,6 +59,6 @@ public class Subject {
           return false;
       }
       final Subject other = (Subject) obj;
-      return Objects.equals(this.subjectName, other.subjectName);
+      return Objects.equals(this.name, other.name);
   }
 }
