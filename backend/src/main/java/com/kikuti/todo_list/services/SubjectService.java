@@ -35,7 +35,7 @@ public class SubjectService {
   }
 
   public void update(Subject returnedSubject, Subject subject) {
-    returnedSubject.setSubjectName(subject.getSubjectName());
+    returnedSubject.setName(subject.getName());
   }
 
   public void deleteById(Long id) {
