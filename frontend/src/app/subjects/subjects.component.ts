@@ -7,12 +7,13 @@ import { FormsModule } from '@angular/forms';
 import { catchError, EMPTY, Observable, Subject as SubjectRXJS } from 'rxjs';
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModalComponent } from '../shared/alert-modal/alert-modal.component';
+import { AlertModalService } from '../shared/alert-modal.service';
 
 @Component({
   selector: 'app-subjects',
   standalone: true,
   imports: [RouterModule, CommonModule, FormsModule, ModalModule],
-  providers: [BsModalService],
+  providers: [BsModalService, AlertModalService],
   templateUrl: './subjects.component.html',
   styleUrl: './subjects.component.scss',
 })
@@ -23,7 +24,7 @@ export class SubjectsComponent implements OnInit {
 
   constructor(
     private subjectService: SubjectsService,
-    private modalService: BsModalService
+    private alertService: AlertModalService
   ) {}
 
   ngOnInit() {
@@ -49,9 +50,8 @@ export class SubjectsComponent implements OnInit {
   }
 
   handleError() {
-    this.bsModalRef = this.modalService.show(AlertModalComponent);
-    this.bsModalRef.content.type = 'danger';
-    this.bsModalRef.content.message =
-      'Error on loading subjects. Try again later.';
+    this.alertService.showAlertDanger(
+      'Error on loading subjects. Try again later!'
+    );
   }
 }
