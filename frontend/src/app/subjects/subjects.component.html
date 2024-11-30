@@ -10,7 +10,10 @@
     </div>
   </div>
   <div class="card-body">
-    <table class="table table-hover">
+    <table
+      class="table table-hover"
+      *ngIf="subjects$ | async as subjects; else loading"
+    >
       <thead>
         <tr>
           <th>#</th>
@@ -36,5 +39,9 @@
         </tr>
       </tbody>
     </table>
+
+    <ng-template #loading>
+      <span>Loading subjects...</span>
+    </ng-template>
   </div>
 </div>
