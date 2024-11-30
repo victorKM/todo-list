@@ -1,0 +1,31 @@
+<form
+  class="row g-3 needs-validation"
+  novalidate
+  [formGroup]="form"
+  style="padding-top: 10px"
+>
+  <div class="col-sm-12">
+    <label for="nome" class="form-label">Subject Name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="name"
+      placeholder="Subject Name"
+      formControlName="name"
+      [ngClass]="{ 'is-invalid': submitted && hasError('name') }"
+    />
+    <app-error-msg
+      [control]="$any(form.get('name'))"
+      label="Name"
+      [showMsg]="submitted"
+    ></app-error-msg>
+  </div>
+  <div style="margin-top: 10px">
+    <button type="submit" class="btn btn-primary" (click)="onSubmit()">
+      Save
+    </button>
+    <button type="button" class="btn btn-default" (click)="onCancel()">
+      Cancel
+    </button>
+  </div>
+</form>

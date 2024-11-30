@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from './subjects';
-import { tap } from 'rxjs';
+import { take, tap } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 
 @Injectable({
@@ -15,5 +15,9 @@ export class SubjectsService {
 
   list() {
     return this.http.get<Subject[]>(this.API).pipe(tap(console.log));
+  }
+
+  create(subject: any) {
+    return this.http.post(this.API, subject).pipe(take(1));
   }
 }

@@ -7,6 +7,27 @@ export const SUBJECTS_ROUTE: Routes = [
     loadComponent: () =>
       import('./subjects.component').then((c) => c.SubjectsComponent),
   },
+  {
+    path: 'new',
+    loadComponent: () =>
+      import('./subjects-form/subjects-form.component').then(
+        (c) => c.SubjectsFormComponent
+      ),
+  },
+  {
+    path: ':id',
+    loadComponent: () =>
+      import('./subjects-form/subjects-form.component').then(
+        (c) => c.SubjectsFormComponent
+      ),
+  },
+  {
+    path: 'edit/:id',
+    loadComponent: () =>
+      import('./subjects-form/subjects-form.component').then(
+        (c) => c.SubjectsFormComponent
+      ),
+  },
 ];
 
 export const routing: ModuleWithProviders<RouterModule> =

@@ -12,7 +12,7 @@
   <div class="card-body">
     <table
       class="table table-hover"
-      *ngIf="subjects$ | async as subjects; else loadingError"
+      *ngIf="subjects$ | async as subjects; else loadingNoError"
     >
       <thead>
         <tr>
@@ -40,13 +40,17 @@
       </tbody>
     </table>
 
-    <ng-template #loadingError>
+    <!-- <ng-template #loadingError>
       <div *ngIf="error$ | async; else loadingNoError">
         Error on loading subjects. Try again later.
       </div>
       <ng-template #loadingNoError>
         <span>Loading subjects...</span>
       </ng-template>
+    </ng-template> -->
+
+    <ng-template #loadingNoError>
+      <span>Loading subjects...</span>
     </ng-template>
   </div>
 </div>

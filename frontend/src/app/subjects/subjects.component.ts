@@ -38,15 +38,6 @@ export class SubjectsComponent implements OnInit {
         return EMPTY;
       })
     );
-
-    this.subjectService
-      .list()
-      .pipe(catchError((error) => EMPTY))
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-        },
-      });
   }
 
   handleError() {
