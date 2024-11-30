@@ -1,1 +1,40 @@
-<p>subjects works!</p>
+<div class="card" style="margin-top: 50px">
+  <div class="card-header">
+    <div class="float-start">
+      <h4>Subjects</h4>
+    </div>
+    <div class="float-end">
+      <button type="button" class="btn btn-primary" [routerLink]="['new']">
+        New Subject
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Subject</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let subject of subjects">
+          <td>{{ subject.id }}</td>
+          <td>{{ subject.name }}</td>
+          <td>
+            <span class="float-end">
+              <button class="btn btn-outline-info mb-1 btn-sm">
+                Visualize
+              </button>
+              <button class="btn btn-outline-warning mb-1 btn-sm">
+                Update
+              </button>
+              <button class="btn btn-outline-danger mb-1 btn-sm">Delete</button>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
