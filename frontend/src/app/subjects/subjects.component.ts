@@ -4,7 +4,7 @@ import { SubjectsService } from './subjects.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { catchError, EMPTY, Observable, Subject as SubjectRXJS } from 'rxjs';
 
 @Component({
   selector: 'app-subjects',
@@ -14,14 +14,31 @@ import { Observable } from 'rxjs';
   styleUrl: './subjects.component.scss',
 })
 export class SubjectsComponent implements OnInit {
-  //subjects: Subject[];
   subjects$: Observable<Subject[]>;
+
+  error$ = new SubjectRXJS<boolean>();
 
   constructor(private subjectService: SubjectsService) {}
 
   ngOnInit() {
-    // this.subjectService.list().subscribe((data) => (this.subjects = data));
+    this.onRefresh();
+  }
 
-    this.subjects$ = this.subjectService.list();
+  onRefresh() {
+    this.subjects$ = this.subjectService.list().pipe(
+      catchError((error) => {
+        this.error$.next(true);
+        return EMPTY;
+      })
+    );
+
+    this.subjectService
+      .list()
+      .pipe(catchError((error) => EMPTY))
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+        },
+      });
   }
 }
