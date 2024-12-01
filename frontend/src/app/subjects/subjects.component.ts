@@ -66,6 +66,10 @@ export class SubjectsComponent implements OnInit {
     this.router.navigate(['edit', subjectId], { relativeTo: this.route });
   }
 
+  onVisualize(subjectId: number) {
+    this.router.navigate([subjectId], { relativeTo: this.route });
+  }
+
   onDelete(subject: any) {
     this.selectedSubject = subject;
 

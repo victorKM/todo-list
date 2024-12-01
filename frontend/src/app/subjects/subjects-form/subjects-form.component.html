@@ -5,22 +5,24 @@
   style="padding-top: 10px"
 >
   <div class="col-sm-12">
-    <label for="nome" class="form-label">Subject Name</label>
-    <input
-      type="text"
-      class="form-control"
-      id="name"
-      placeholder="Subject Name"
-      formControlName="name"
-      [ngClass]="{ 'is-invalid': submitted && hasError('name') }"
-    />
-    <app-error-msg
-      [control]="$any(form.get('name'))"
-      label="Name"
-      [showMsg]="submitted"
-    ></app-error-msg>
+    <fieldset [disabled]="!edit">
+      <label for="nome" class="form-label">Subject Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        placeholder="Subject Name"
+        formControlName="name"
+        [ngClass]="{ 'is-invalid': submitted && hasError('name') }"
+      />
+      <app-error-msg
+        [control]="$any(form.get('name'))"
+        label="Name"
+        [showMsg]="submitted"
+      ></app-error-msg>
+    </fieldset>
   </div>
-  <div style="margin-top: 10px">
+  <div style="margin-top: 10px" *ngIf="edit">
     <button type="submit" class="btn btn-primary" (click)="onSubmit()">
       Save
     </button>

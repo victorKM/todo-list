@@ -25,6 +25,7 @@ import { Subjects2Service } from '../subjects2.service';
 export class SubjectsFormComponent implements OnInit {
   form: FormGroup;
   submitted = false;
+  edit = true;
 
   constructor(
     private fb: FormBuilder,
@@ -48,6 +49,10 @@ export class SubjectsFormComponent implements OnInit {
           Validators.maxLength(250),
         ],
       ],
+    });
+
+    this.route.url.subscribe((url) => {
+      this.edit = url[0].path === 'edit' || url[0].path === 'new';
     });
   }
 
