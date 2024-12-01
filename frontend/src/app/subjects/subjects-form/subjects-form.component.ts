@@ -11,6 +11,8 @@ import { ErrorMsgComponent } from '../../shared/error-msg/error-msg.component';
 import { SubjectsService } from '../subjects.service';
 import { AlertModalService } from '../../shared/alert-modal.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { ActivatedRoute } from '@angular/router';
+import { Subjects2Service } from '../subjects2.service';
 
 @Component({
   selector: 'app-subjects-form',
@@ -26,15 +28,20 @@ export class SubjectsFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private subjectService: SubjectsService,
+    //private subjectService: SubjectsService,
+    private subjectService: Subjects2Service,
     private modal: AlertModalService,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    const subject = this.route.snapshot.data['subject'];
+
     this.form = this.fb.group({
+      id: [subject.id],
       name: [
-        null,
+        subject.name,
         [
           Validators.required,
           Validators.minLength(3),
@@ -51,16 +58,22 @@ export class SubjectsFormComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.form.valid) {
-      this.subjectService.create(this.form.value).subscribe({
+      let successMsg = 'Subject was created!';
+      let errorMsg = 'Error in create a new subject, try again!';
+
+      if (this.form.value.id) {
+        successMsg = 'Subject was updated!';
+        errorMsg = 'Error in update the subject, try again!';
+      }
+
+      this.subjectService.save(this.form.value).subscribe({
         next: (success) => {
-          this.modal.showAlertSuccess('Successfully created!');
+          this.modal.showAlertSuccess(successMsg);
           setTimeout(() => {
             this.location.back();
           }, 3000);
         },
-        error: (error) =>
-          this.modal.showAlertDanger('Error in create new subject, try again!'),
-        complete: () => console.log('request completed'),
+        error: (error) => this.modal.showAlertDanger(errorMsg),
       });
     }
   }

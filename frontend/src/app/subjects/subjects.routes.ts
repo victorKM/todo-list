@@ -1,5 +1,6 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SubjectResolverGuard } from './guards/subject-resolver.guard';
 
 export const SUBJECTS_ROUTE: Routes = [
   {
@@ -13,6 +14,9 @@ export const SUBJECTS_ROUTE: Routes = [
       import('./subjects-form/subjects-form.component').then(
         (c) => c.SubjectsFormComponent
       ),
+    resolve: {
+      subject: SubjectResolverGuard,
+    },
   },
   {
     path: ':id',
@@ -20,6 +24,9 @@ export const SUBJECTS_ROUTE: Routes = [
       import('./subjects-form/subjects-form.component').then(
         (c) => c.SubjectsFormComponent
       ),
+    resolve: {
+      subject: SubjectResolverGuard,
+    },
   },
   {
     path: 'edit/:id',
@@ -27,6 +34,9 @@ export const SUBJECTS_ROUTE: Routes = [
       import('./subjects-form/subjects-form.component').then(
         (c) => c.SubjectsFormComponent
       ),
+    resolve: {
+      subject: SubjectResolverGuard,
+    },
   },
 ];
 
