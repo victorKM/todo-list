@@ -1,0 +1,73 @@
+<div class="card" style="margin-top: 50px">
+  <div class="card-header">
+    <div class="float-start">
+      <h4>Tasks</h4>
+    </div>
+    <div class="float-end">
+      <button type="button" class="btn btn-primary" [routerLink]="">
+        New Task
+      </button>
+      <button type="button" class="btn btn-primary" (click)="onRefresh()">
+        Refresh
+      </button>
+    </div>
+  </div>
+  <div class="card-body">
+    <table
+      class="table table-hover"
+      *ngIf="tasks$ | async as tasks; else loadingNoError"
+    >
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Task</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of tasks">
+          <td class="align-middle">{{ task.id }}</td>
+          <td class="align-middle">
+            <div>
+              <div>{{ task.title }} - {{ task.subject.name }}</div>
+              <div
+                class="task-status"
+                [ngClass]="{
+                  todo: task.taskStatus === 'TODO',
+                  doing: task.taskStatus === 'DOING',
+                  done: task.taskStatus === 'DONE'
+                }"
+              >
+                {{ task.taskStatus }}
+              </div>
+            </div>
+          </td>
+          <td class="align-middle">
+            <span class="float-end">
+              <button class="btn btn-outline-info mb-1 btn-sm">
+                Visualize
+              </button>
+              <button class="btn btn-outline-warning mb-1 btn-sm">
+                Update
+              </button>
+              <button class="btn btn-outline-danger mb-1 btn-sm">Delete</button>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- <ng-template #loadingError>
+      <div *ngIf="error$ | async; else loadingNoError">
+        Error on loading subjects. Try again later.
+      </div>
+      <ng-template #loadingNoError>
+        <span>Loading subjects...</span>
+      </ng-template>
+    </ng-template> -->
+
+    <ng-template #loadingNoError>
+      <span>Loading tasks...</span>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+.task-status {
+  display: inline-block;
+  padding-block: 1px;
+  padding-inline: 5px;
+  border-radius: 15%;
+  margin-top: 5px;
+}
+
+.todo {
+  background-color: #f8d7da;
+}
+
+.doing {
+  background-color: #fff3cd;
+}
+
+.done {
+  background-color: #d4edda;
+}
