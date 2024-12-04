@@ -21,7 +21,7 @@ public class Task {
   
   private String title;
   private String description;
-  private Integer taskStatus;
+  private Integer status;
 
   @ManyToOne
   @JoinColumn(name = "subject_id")
@@ -30,11 +30,11 @@ public class Task {
   public Task() {
   }
 
-  public Task(Long id, String title, String description, TaskStatus taskStatus, Subject subject) {
+  public Task(Long id, String title, String description, TaskStatus status, Subject subject) {
     this.id = id;
     this.title = title;
     this.description = description;
-    setTaskStatus(taskStatus);
+    setStatus(status);
     this.subject = subject;
   }
 
@@ -62,16 +62,16 @@ public class Task {
     this.description = description;
   }
 
-  public TaskStatus getTaskStatus() {
-    if(this.taskStatus == null) {
+  public TaskStatus getStatus() {
+    if(this.status == null) {
       return null;
     }
-    return TaskStatus.valueOf(taskStatus);
+    return TaskStatus.valueOf(status);
   }
 
-  public void setTaskStatus(TaskStatus taskStatus) {
-    if(taskStatus != null) {
-      this.taskStatus = taskStatus.getCode();
+  public void setStatus(TaskStatus status) {
+    if(status != null) {
+      this.status = status.getCode();
     }
   }
 

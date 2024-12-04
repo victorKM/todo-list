@@ -52,8 +52,8 @@ public class TaskService {
       returnedTask.setTitle(task.getTitle());
     }
 
-    if(task.getTaskStatus() != null) {
-      returnedTask.setTaskStatus(task.getTaskStatus());
+    if(task.getStatus() != null) {
+      returnedTask.setStatus(task.getStatus());
     }
   }
 

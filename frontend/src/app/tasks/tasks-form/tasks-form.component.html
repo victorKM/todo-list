@@ -1,0 +1,83 @@
+<form
+  class="row g-3 needs-validation"
+  novalidate
+  [formGroup]="form"
+  style="padding-top: 10px"
+>
+  <div class="col-sm-12">
+    <label for="title" class="form-label">Task Title</label>
+    <input
+      type="text"
+      class="form-control"
+      id="title"
+      placeholder="Task Title"
+      formControlName="title"
+      [ngClass]="{ 'is-invalid': submitted && hasError('title') }"
+    />
+    <app-error-msg
+      [control]="$any(form.get('title'))"
+      label="Title"
+      [showMsg]="submitted"
+    ></app-error-msg>
+  </div>
+  <div class="col-sm-12">
+    <label for="nome" class="form-label">Task Description</label>
+    <input
+      type="text"
+      class="form-control"
+      id="description"
+      placeholder="Task Description"
+      formControlName="description"
+      [ngClass]="{ 'is-invalid': submitted && hasError('description') }"
+    />
+    <app-error-msg
+      [control]="$any(form.get('description'))"
+      label="Description"
+      [showMsg]="submitted"
+    ></app-error-msg>
+  </div>
+  <div class="col-sm-6" *ngIf="method !== 'post'">
+    <label for="status" class="form-label">Task Status</label>
+    <select
+      formControlName="status"
+      class="form-control"
+      id="status"
+      [ngClass]="{ 'is-invalid': submitted && hasError('status') }"
+    >
+      <option *ngFor="let status of statuses" [ngValue]="status">
+        {{ status }}
+      </option>
+    </select>
+    <app-error-msg
+      [control]="$any(form.get('status'))"
+      label="Status"
+      [showMsg]="submitted"
+    ></app-error-msg>
+  </div>
+  <div class="col-sm-6">
+    <label for="subject" class="form-label">Task Subject</label>
+    <select
+      formControlName="subject"
+      class="form-control"
+      id="subject"
+      [ngClass]="{ 'is-invalid': submitted && hasError('subject') }"
+    >
+      <option *ngFor="let subject of subjects" [ngValue]="subject">
+        {{ subject.name }}
+      </option>
+    </select>
+    <app-error-msg
+      [control]="$any(form.get('subject'))"
+      label="Subject"
+      [showMsg]="submitted"
+    ></app-error-msg>
+  </div>
+  <div style="margin-top: 10px" *ngIf="method !== 'visualize'">
+    <button type="submit" class="btn btn-primary" (click)="onSubmit()">
+      Save
+    </button>
+    <button type="button" class="btn btn-default" (click)="onCancel()">
+      Cancel
+    </button>
+  </div>
+</form>

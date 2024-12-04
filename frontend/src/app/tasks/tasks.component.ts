@@ -15,6 +15,7 @@ import { RouterModule } from '@angular/router';
   providers: [BsModalService, AlertModalService],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss',
+  preserveWhitespaces: true,
 })
 export class TasksComponent implements OnInit {
   tasks$: Observable<Task[]>;

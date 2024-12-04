@@ -1,11 +1,22 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { TaskResolverGuard } from '../subjects/guards/task-resolver.guard';
 
 export const TASKS_ROUTE: Routes = [
   {
     path: '',
     loadComponent: () =>
       import('./tasks.component').then((c) => c.TasksComponent),
+  },
+  {
+    path: 'new',
+    loadComponent: () =>
+      import('./tasks-form/tasks-form.component').then(
+        (c) => c.TasksFormComponent
+      ),
+    resolve: {
+      task: TaskResolverGuard,
+    },
   },
 ];
 

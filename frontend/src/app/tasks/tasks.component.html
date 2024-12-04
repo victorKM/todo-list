@@ -4,7 +4,7 @@
       <h4>Tasks</h4>
     </div>
     <div class="float-end">
-      <button type="button" class="btn btn-primary" [routerLink]="">
+      <button type="button" class="btn btn-primary" [routerLink]="['new']">
         New Task
       </button>
       <button type="button" class="btn btn-primary" (click)="onRefresh()">
@@ -28,18 +28,16 @@
         <tr *ngFor="let task of tasks">
           <td class="align-middle">{{ task.id }}</td>
           <td class="align-middle">
-            <div>
-              <div>{{ task.title }} - {{ task.subject.name }}</div>
-              <div
-                class="task-status"
-                [ngClass]="{
-                  todo: task.taskStatus === 'TODO',
-                  doing: task.taskStatus === 'DOING',
-                  done: task.taskStatus === 'DONE'
-                }"
-              >
-                {{ task.taskStatus }}
-              </div>
+            <div>{{ task.title }} - {{ task.subject.name }}</div>
+            <div
+              class="task-status"
+              [ngClass]="{
+                todo: task.status === 'TODO',
+                doing: task.status === 'DOING',
+                done: task.status === 'DONE'
+              }"
+            >
+              {{ task.status }}
             </div>
           </td>
           <td class="align-middle">
@@ -56,15 +54,6 @@
         </tr>
       </tbody>
     </table>
-
-    <!-- <ng-template #loadingError>
-      <div *ngIf="error$ | async; else loadingNoError">
-        Error on loading subjects. Try again later.
-      </div>
-      <ng-template #loadingNoError>
-        <span>Loading subjects...</span>
-      </ng-template>
-    </ng-template> -->
 
     <ng-template #loadingNoError>
       <span>Loading tasks...</span>
