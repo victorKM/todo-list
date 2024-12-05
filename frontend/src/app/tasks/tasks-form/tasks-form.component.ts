@@ -45,7 +45,6 @@ export class TasksFormComponent implements OnInit {
 
     this.subjectService.list().subscribe((data) => (this.subjects = data));
 
-    console.log(task.subject);
     this.form = this.fb.group({
       id: [task.id],
       title: [task.title, [Validators.required]],
