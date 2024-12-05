@@ -6,7 +6,7 @@ import { AlertModalService } from '../shared/alert-modal.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BsModalRef, BsModalService, ModalModule } from 'ngx-bootstrap/modal';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-tasks',
@@ -22,7 +22,9 @@ export class TasksComponent implements OnInit {
 
   constructor(
     private taskService: TasksService,
-    private alertService: AlertModalService
+    private alertService: AlertModalService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -42,5 +44,9 @@ export class TasksComponent implements OnInit {
     this.alertService.showAlertDanger(
       'Error on loading tasks. Try again later!'
     );
+  }
+
+  onEdit(taskId: number) {
+    this.router.navigate(['edit', taskId], { relativeTo: this.route });
   }
 }

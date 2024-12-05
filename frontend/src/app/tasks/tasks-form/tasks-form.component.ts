@@ -1,3 +1,4 @@
+import { Subject } from './../../subjects/subjects';
 import { CommonModule, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -12,7 +13,6 @@ import { AlertModalService } from '../../shared/alert-modal.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Subjects2Service } from '../../subjects/subjects2.service';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from '../../subjects/subjects';
 import { TasksService } from '../tasks.service';
 
 @Component({
@@ -41,10 +41,11 @@ export class TasksFormComponent implements OnInit {
 
   ngOnInit() {
     const task = this.route.snapshot.data['task'];
-    let taskStatus = task.id ? task.id : 'TODO';
+    let taskStatus = task.id ? task.status : 'TODO';
 
     this.subjectService.list().subscribe((data) => (this.subjects = data));
 
+    console.log(task.subject);
     this.form = this.fb.group({
       id: [task.id],
       title: [task.title, [Validators.required]],
@@ -65,7 +66,6 @@ export class TasksFormComponent implements OnInit {
   }
 
   hasError(field: string) {
-    console.log(field + ': ' + this.form.get(field)?.errors);
     return this.form.get(field)?.errors;
   }
 
@@ -80,7 +80,7 @@ export class TasksFormComponent implements OnInit {
         errorMsg = 'Error in update the task, try again!';
       }
 
-      this.taskService.create(this.form.value).subscribe({
+      this.taskService.save(this.form.value).subscribe({
         next: (sucess) => {
           this.modal.showAlertSuccess(successMsg);
           setTimeout(() => {
@@ -95,5 +95,11 @@ export class TasksFormComponent implements OnInit {
   onCancel() {
     this.submitted = false;
     this.form.reset();
+  }
+
+  compareSubjects(subject1: Subject, subject2: Subject): boolean {
+    return subject1 && subject2
+      ? subject1.id === subject2.id
+      : subject1 === subject2;
   }
 }

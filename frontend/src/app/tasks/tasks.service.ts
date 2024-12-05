@@ -20,7 +20,20 @@ export class TasksService {
     return this.http.get<Task>(`${this.API}/${id}`).pipe(take(1));
   }
 
-  create(task: any) {
+  private create(task: any) {
     return this.http.post(this.API, task).pipe(take(1));
+  }
+
+  private update(task: any) {
+    console.log(task);
+    return this.http.put(`${this.API}/${task.id}`, task).pipe(take(1));
+  }
+
+  save(task: any) {
+    if (task.id) {
+      return this.update(task);
+    }
+
+    return this.create(task);
   }
 }

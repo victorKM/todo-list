@@ -55,6 +55,10 @@ public class TaskService {
     if(task.getStatus() != null) {
       returnedTask.setStatus(task.getStatus());
     }
+
+    if(task.getSubject() != null) {
+      returnedTask.setSubject(task.getSubject());
+    }
   }
 
   public void deleteById(Long id) {

@@ -61,6 +61,7 @@
       class="form-control"
       id="subject"
       [ngClass]="{ 'is-invalid': submitted && hasError('subject') }"
+      [compareWith]="compareSubjects"
     >
       <option *ngFor="let subject of subjects" [ngValue]="subject">
         {{ subject.name }}

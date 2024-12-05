@@ -6,8 +6,8 @@ import {
   Resolve,
   RouterStateSnapshot,
 } from '@angular/router';
-import { Subject } from '../subjects';
 import { of } from 'rxjs';
+import { Subject } from '../../subjects/subjects';
 
 type TaskEditOrNewTypes = {
   id: number | null;

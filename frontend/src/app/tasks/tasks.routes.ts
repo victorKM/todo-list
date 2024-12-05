@@ -1,6 +1,6 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TaskResolverGuard } from '../subjects/guards/task-resolver.guard';
+import { TaskResolverGuard } from './guards/task-resolver.guard';
 
 export const TASKS_ROUTE: Routes = [
   {
@@ -10,6 +10,16 @@ export const TASKS_ROUTE: Routes = [
   },
   {
     path: 'new',
+    loadComponent: () =>
+      import('./tasks-form/tasks-form.component').then(
+        (c) => c.TasksFormComponent
+      ),
+    resolve: {
+      task: TaskResolverGuard,
+    },
+  },
+  {
+    path: 'edit/:id',
     loadComponent: () =>
       import('./tasks-form/tasks-form.component').then(
         (c) => c.TasksFormComponent
