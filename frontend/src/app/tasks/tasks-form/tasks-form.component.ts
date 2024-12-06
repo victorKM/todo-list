@@ -11,9 +11,9 @@ import {
 import { ErrorMsgComponent } from '../../shared/error-msg/error-msg.component';
 import { AlertModalService } from '../../shared/alert-modal.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { Subjects2Service } from '../../subjects/subjects2.service';
 import { ActivatedRoute } from '@angular/router';
 import { TasksService } from '../tasks.service';
+import { SubjectsService } from '../../subjects/subjects.service';
 
 @Component({
   selector: 'app-tasks-form',
@@ -33,7 +33,7 @@ export class TasksFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private taskService: TasksService,
-    private subjectService: Subjects2Service,
+    private subjectService: SubjectsService,
     private modal: AlertModalService,
     private location: Location,
     private route: ActivatedRoute

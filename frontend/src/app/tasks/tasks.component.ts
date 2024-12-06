@@ -1,5 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { catchError, EMPTY, Observable } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  catchError,
+  EMPTY,
+  Observable,
+  Subject as SubjectRXJS,
+  switchMap,
+  take,
+} from 'rxjs';
 import { Task } from './tasks';
 import { TasksService } from './tasks.service';
 import { AlertModalService } from '../shared/alert-modal.service';
@@ -19,6 +26,11 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 })
 export class TasksComponent implements OnInit {
   tasks$: Observable<Task[]>;
+  error$ = new SubjectRXJS<boolean>();
+  deleteModalRef: BsModalRef;
+  @ViewChild('deleteModal') deleteModal: any;
+
+  selectedTask: Task;
 
   constructor(
     private taskService: TasksService,
@@ -52,5 +64,34 @@ export class TasksComponent implements OnInit {
 
   onVisualize(taskId: number) {
     this.router.navigate([taskId], { relativeTo: this.route });
+  }
+
+  onDelete(task: any) {
+    this.selectedTask = task;
+
+    const result$ = this.alertService.showConfirm(
+      'Confirmation',
+      'Are you sure you want to remove this task'
+    );
+
+    result$
+      .asObservable()
+      .pipe(
+        take(1),
+        switchMap((result) =>
+          result ? this.taskService.remove(task.id) : EMPTY
+        )
+      )
+      .subscribe({
+        next: (success) => {
+          this.alertService.showAlertSuccess('Task deleted!');
+          this.onRefresh();
+        },
+        error: (error) => {
+          this.alertService.showAlertDanger(
+            'Error in delete task. Try again later!'
+          );
+        },
+      });
   }
 }
