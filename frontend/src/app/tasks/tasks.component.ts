@@ -49,4 +49,8 @@ export class TasksComponent implements OnInit {
   onEdit(taskId: number) {
     this.router.navigate(['edit', taskId], { relativeTo: this.route });
   }
+
+  onVisualize(taskId: number) {
+    this.router.navigate([taskId], { relativeTo: this.route });
+  }
 }

@@ -28,6 +28,16 @@ export const TASKS_ROUTE: Routes = [
       task: TaskResolverGuard,
     },
   },
+  {
+    path: ':id',
+    loadComponent: () =>
+      import('./tasks-form/tasks-form.component').then(
+        (c) => c.TasksFormComponent
+      ),
+    resolve: {
+      task: TaskResolverGuard,
+    },
+  },
 ];
 
 export const routing: ModuleWithProviders<RouterModule> =
